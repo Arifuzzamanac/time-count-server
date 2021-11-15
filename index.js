@@ -15,7 +15,6 @@ app.use(express.json());
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.n6yc8.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
-console.log(uri)
 
 
 
@@ -53,9 +52,7 @@ async function run() {
     // ORDER POST API METHOD
     app.post('/orderProducts', async (req, res) => {
       const orderProduct = req.body;
-      console.log(orderProduct);
       const result = await orderCollection.insertOne(orderProduct);
-      console.log(result);
       res.json(result);
     })
 
