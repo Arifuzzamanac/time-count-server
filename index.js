@@ -24,7 +24,8 @@ async function run() {
     const database = client.db('time-count');
     const productsCollection = database.collection('products');
     const usersCollection = database.collection('users');
-    const orderCollection = database.collection('orderProducts')
+    const orderCollection = database.collection('orderProducts');
+    const reviewCollection = database.collection('review')
 
     // GET API METHOD
     app.get('/products', async (req, res) => {
@@ -111,6 +112,21 @@ async function run() {
       const result = await usersCollection.updateOne(filter, updateDoc);
       res.json(result);
     });
+
+    // /RATING GET API
+    app.get('/rating', async (req, res) => {
+      const cursor = reviewCollection.find({});
+      const rating = await cursor.toArray();
+      res.send(rating);
+    });
+
+    //RATING POST API
+    app.post('/rating', async (req, res) => {
+      const newRatings = req.body;
+      const result = await reviewCollection.insertOne(newRatings);
+      res.json(result);
+    });
+
 
   } finally {
     // await client.close();
